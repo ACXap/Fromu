@@ -1,6 +1,5 @@
 package Service;
 
-
 import Data.DbConnectProperty;
 import Data.InternetConnectProperty;
 
@@ -38,12 +37,12 @@ public class PropertyService {
             props.load(sr);
         }
 
-        ApiKey = props.getProperty("ApiKey");
-        UrlService = props.getProperty("UrlService");
+        //ApiKey = props.getProperty("ApiKey");
+        //UrlService = props.getProperty("UrlService");
         DbSeparator = props.getProperty("DbSeparator");
         DbConnectProperty = new DbConnectProperty(props.getProperty("DbType"),
                 props.getProperty("DbServer"),
-                Integer.parseInt(props.getProperty("DbPort")),
+                ParseInt(props.getProperty("DbPort"), 5432),
                 props.getProperty("DbName"),
                 props.getProperty("DbUser"),
                 props.getProperty("DbPassword"),
@@ -51,19 +50,18 @@ public class PropertyService {
         CanSaveTempFile = Boolean.parseBoolean(props.getProperty("SaveTempFile"));
         PathTempFile = props.getProperty("PathTempFile");
 
-        String portStringValue = props.getProperty("ProxyPort");
-        int port = portStringValue.isEmpty() ? 0 : Integer.parseInt(portStringValue);
-
-        InternetConnectProperty = new InternetConnectProperty(props.getProperty("ProxyServer"), port);
-
-        CheckProperty();
+        InternetConnectProperty = new InternetConnectProperty(props.getProperty("ProxyServer"), ParseInt(props.getProperty("ProxyPort"), 8080));
     }
     //endregion PublicMethod
 
     //region PrivateMethod
-    private static void CheckProperty() throws Exception {
-        if (ApiKey.isEmpty()) throw new Exception("ApiKey empty");
-        if (UrlService.isEmpty()) throw new Exception("UrlService empty");
+    private static int ParseInt(String content, int defValue) {
+        try {
+            return Integer.parseInt(content);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return defValue;
+        }
     }
     //endregion PrivateMethod
 }
