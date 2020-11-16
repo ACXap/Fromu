@@ -1,7 +1,6 @@
 package Data;
 
-import Db.QueryGenerator.QueryGeneratorPostgreSql;
-import Db.QueryGenerator.QueryGeneratorSql;
+import Db.QueryGenerator.CommonQueryGenerator;
 import Interfaces.IQueryGenerator;
 
 import java.sql.Connection;
@@ -45,12 +44,7 @@ public class DbConnectProperty {
     }
 
     public IQueryGenerator GetQueryGenerator() throws Exception {
-        if (_dbType.equals("sql"))
-            return new QueryGeneratorSql(_dbSchema);
-        else if (_dbType.equals("postgresql"))
-            return new QueryGeneratorPostgreSql(_dbSchema);
-
-        throw new Exception("DbProperty is bad");
+        return new CommonQueryGenerator(_dbSchema);
     }
 
     //endregion PublicMethod
