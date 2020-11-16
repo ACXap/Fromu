@@ -14,8 +14,6 @@ public class Program {
 
         LegalPerson.Separator = PropertyService.DbSeparator;
 
-
-
         RepositoryFile rf = new RepositoryFile(PropertyService.PathTempFile);
         FromuResponse fromuResponse = rf.GetResponse( "temp/" + "fromu.xml");
 
