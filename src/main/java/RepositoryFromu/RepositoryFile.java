@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 
 public class RepositoryFile {
 
-
     public RepositoryFile(String path) {
         _path = path;
         new File(_path).mkdirs();
@@ -19,10 +18,9 @@ public class RepositoryFile {
     private final String _path;
     private final IXmlService _xmlService = new XmlService();
 
+    public FromuResponse GetResponse(String fileName) throws Exception {
 
-    public FromuResponse GetResponse() throws Exception {
-
-        String content = new String(Files.readAllBytes(Paths.get(_path + "/" + "fromu.xml")));
+        String content = new String(Files.readAllBytes(Paths.get(fileName)));
         return _xmlService.Deserialize(content, FromuResponse.class);
     }
 }

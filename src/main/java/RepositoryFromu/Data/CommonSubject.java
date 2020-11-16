@@ -26,10 +26,10 @@ public class CommonSubject {
     public List<Address> Address;
 
     @JacksonXmlProperty(localName = "ФЛ")
-    public Fl Fl;
+    public PhysicalPerson Fl;
 
     @JacksonXmlProperty(localName = "ЮЛ")
-    public Ul Ul;
+    public LegalPerson Ul;
 
     public static class TypeSubject {
 
