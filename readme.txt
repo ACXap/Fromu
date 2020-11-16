@@ -1,0 +1,1 @@
+﻿Пример: java -jar Fromu-1.0.jar
