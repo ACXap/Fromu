@@ -22,7 +22,7 @@ public class PropertyService {
     public static String UrlService;
     public static String DbSeparator;
     public static DbConnectProperty DbConnectProperty;
-    public static InternetConnectProperty InternetConnectProperty;
+    //public static InternetConnectProperty InternetConnectProperty;
     public static boolean CanSaveTempFile;
     public static String PathTempFile;
 
@@ -50,7 +50,7 @@ public class PropertyService {
         CanSaveTempFile = Boolean.parseBoolean(props.getProperty("SaveTempFile"));
         PathTempFile = props.getProperty("PathTempFile");
 
-        InternetConnectProperty = new InternetConnectProperty(props.getProperty("ProxyServer"), ParseInt(props.getProperty("ProxyPort"), 8080));
+       // InternetConnectProperty = new InternetConnectProperty(props.getProperty("ProxyServer"), ParseInt(props.getProperty("ProxyPort"), 0));
     }
     //endregion PublicMethod
 
