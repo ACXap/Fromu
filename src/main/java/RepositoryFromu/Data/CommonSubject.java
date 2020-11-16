@@ -1,10 +1,10 @@
 package RepositoryFromu.Data;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import java.util.Date;
+import java.util.List;
 
-@JsonIgnoreProperties(value = { "ЮЛ", "ФЛ"})
 public class CommonSubject {
 
     @JacksonXmlProperty(localName = "ИдСубъекта")
@@ -23,5 +23,29 @@ public class CommonSubject {
     public String Note;
 
     @JacksonXmlProperty(localName = "СписокАдресов")
-    public Object Address;
+    public List<Address> Address;
+
+    @JacksonXmlProperty(localName = "ФЛ")
+    public Fl Fl;
+
+    @JacksonXmlProperty(localName = "ЮЛ")
+    public Ul Ul;
+
+    public static class TypeSubject {
+
+        @JacksonXmlProperty(localName = "Идентификатор")
+        public int Id;
+
+        @JacksonXmlProperty(localName = "Наименование")
+        public String Name;
+    }
+
+    public static class History {
+
+        @JacksonXmlProperty(localName = "ДатаВключения")
+        public Date DateInput;
+
+        @JacksonXmlProperty(localName = "ДатаМодификации")
+        public Date DateChange;
+    }
 }
