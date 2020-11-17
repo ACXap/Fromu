@@ -16,12 +16,12 @@ public class Program {
 
         Person.SEPARATOR = PropertyService.DbSeparator;
 
-
         RepositoryFile rf = new RepositoryFile(PropertyService.PathTempFile);
         FromuResponse fromuResponse = rf.GetResponse("temp/" + "fromu.xml");
 
         List<LegalPerson> legal = LegalPerson.ConvertCommonSubjectToLegalPerson(fromuResponse.Entities);
         List<PhysicalPerson> physical = PhysicalPerson.ConvertCommonSubjectToPhysicalPerson(fromuResponse.Entities);
+
 
         DataSaveRepositoryDb db = new DataSaveRepositoryDb(PropertyService.DbConnectProperty);
         db.AddLegalPerson(legal);

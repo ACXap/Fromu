@@ -34,28 +34,7 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
             con.setAutoCommit(false);
 
             AddLegal(persons, con);
-
-            String query = _queryGenerator.GetQueryInsertAddress();
-
-            try (PreparedStatement ps = con.prepareStatement(query)) {
-
-                for (Person p : persons) {
-                    if (p.Address == null || p.Address.isEmpty()) continue;
-
-                    for (Address a : p.Address) {
-                        int parameterIndex = 1;
-
-                        ps.setInt(parameterIndex++, p.ListId);
-                        ps.setInt(parameterIndex++, a.TypeAddress.Id);
-                        ps.setString(parameterIndex++, a.TextAddress);
-                        ps.setString(parameterIndex, a.Country.Code);
-
-                        ps.addBatch();
-                    }
-                }
-
-                ps.executeBatch();
-            }
+            AddAddress(persons, con);
 
             con.commit();
         } catch (SQLException sex) {
@@ -66,7 +45,6 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
             con.close();
         }
     }
-
 
     @Override
     public void AddPhysicalPerson(List<PhysicalPerson> persons) throws SQLException {
@@ -77,28 +55,7 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
 
             AddPhysical(persons, con);
             AddPhysicalDocument(persons, con);
-
-            String query = _queryGenerator.GetQueryInsertAddress();
-
-            try (PreparedStatement ps = con.prepareStatement(query)) {
-
-                for (Person p : persons) {
-                    if (p.Address == null || p.Address.isEmpty()) continue;
-
-                    for (Address a : p.Address) {
-                        int parameterIndex = 1;
-
-                        ps.setInt(parameterIndex++, p.ListId);
-                        ps.setInt(parameterIndex++, a.TypeAddress.Id);
-                        ps.setString(parameterIndex++, a.TextAddress);
-                        ps.setObject(parameterIndex, GetCountryCode(a.Country));
-
-                        ps.addBatch();
-                    }
-                }
-
-                ps.executeBatch();
-            }
+            AddAddress(persons, con);
 
             con.commit();
         } catch (SQLException sex) {
@@ -108,12 +65,6 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
         } finally {
             con.close();
         }
-    }
-
-    private Object GetCountryCode(Address.Country country) {
-        if(country== null) return  null;
-
-        return country.Code;
     }
 
     private void AddPhysicalDocument(List<PhysicalPerson> persons, Connection con) throws SQLException {
@@ -182,6 +133,36 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
             }
             ps.executeBatch();
         }
+    }
+
+    private <T extends Person> void AddAddress(List<T> persons, Connection con) throws SQLException{
+        String query = _queryGenerator.GetQueryInsertAddress();
+
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+
+            for (Person p : persons) {
+                if (p.Address == null || p.Address.isEmpty()) continue;
+
+                for (Address a : p.Address) {
+                    int parameterIndex = 1;
+
+                    ps.setInt(parameterIndex++, p.ListId);
+                    ps.setInt(parameterIndex++, a.TypeAddress.Id);
+                    ps.setString(parameterIndex++, a.TextAddress);
+                    ps.setObject(parameterIndex, GetCountryCode(a.Country));
+
+                    ps.addBatch();
+                }
+            }
+
+            ps.executeBatch();
+        }
+    }
+
+    private Object GetCountryCode(Address.Country country) {
+        if(country== null) return  null;
+
+        return country.Code;
     }
 
     private Object GetSqlDate(Date date) {
