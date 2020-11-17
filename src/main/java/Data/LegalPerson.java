@@ -1,5 +1,6 @@
 package Data;
 
+import RepositoryFromu.Data.Address;
 import RepositoryFromu.Data.CommonSubject;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ public class LegalPerson {
         Note = person.Note;
         DateChange = person.History.DateChange;
         DateCreate = person.History.DateInput;
+        Address = person.Address;
         AllName = GetAllName(person);
     }
 
@@ -34,4 +36,5 @@ public class LegalPerson {
     public final String AllName;
     public final Date DateCreate;
     public final Date DateChange;
+    public List<Address> Address;
 }

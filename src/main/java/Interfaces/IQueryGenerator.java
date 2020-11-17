@@ -8,4 +8,7 @@ public interface IQueryGenerator {
 
     String GetQueryInsertLegal();
 
+    String GetQueryInsertPhysical();
+
+    String GetQueryInsertPhysicalDocuments();
 }
