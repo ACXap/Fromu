@@ -8,6 +8,7 @@ public class CommonQueryGenerator implements IQueryGenerator {
         TABLE_LEGAL = schema + "fromu_legal";
         TABLE_PHYSICAL = schema + "fromu_physical";
         TABLE_PHYSICAL_DOCUMENT = schema + "fromu_physical_document";
+        TABLE_ADDRESS = schema + "fromu_address";
 
     }
 
@@ -15,6 +16,7 @@ public class CommonQueryGenerator implements IQueryGenerator {
     protected final String TABLE_LEGAL;
     protected final String TABLE_PHYSICAL;
     protected final String TABLE_PHYSICAL_DOCUMENT;
+    protected final String TABLE_ADDRESS;
 
     private final String INSERT_INTO = "INSERT INTO ";
     //endregion PrivateField
@@ -37,5 +39,12 @@ public class CommonQueryGenerator implements IQueryGenerator {
         return INSERT_INTO + TABLE_PHYSICAL_DOCUMENT
                 + " (list_id,type_id,number,organ,date_issue)"
                 + " VALUES(?,?,?,?,?);";
+    }
+
+    @Override
+    public String GetQueryInsertAddress() {
+        return INSERT_INTO + TABLE_ADDRESS
+                + " (list_id,type_id,text_address,country_id)"
+                + " VALUES(?,?,?,?);";
     }
 }

@@ -7,20 +7,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PhysicalPerson {
-    public static String Separator = ",";
+public class PhysicalPerson extends Person {
 
     public PhysicalPerson(CommonSubject person) {
-        ListId = person.Id;
-        Unc = person.UNC;
-        Note = person.Note;
-        DateCreate = person.History.DateInput;
-        DateChange = person.History.DateChange;
+       super(person);
 
         Nationality = GetNationality(person);
-        Address = person.Address;
-
-        AllName = GetAllName(person.Fl);
         AllBirthday = GetAllBirthday(person.Fl);
         Documents = person.Fl.listDocuments;
     }
@@ -29,15 +21,9 @@ public class PhysicalPerson {
         return subject.parallelStream().filter(s -> s.Fl != null).map(PhysicalPerson::new).collect(Collectors.toList());
     }
 
-    public final int ListId;
-    public final String Unc;
-    public final String Note;
-    public final String AllName;
-    public final Date DateCreate;
-    public final Date DateChange;
+
     public final String AllBirthday;
     public final String Nationality;
-    public final List<Address> Address;
     public final List<RepositoryFromu.Data.PhysicalPerson.Documents> Documents;
 
     private String GetAllBirthday(RepositoryFromu.Data.PhysicalPerson fl) {
@@ -56,14 +42,17 @@ public class PhysicalPerson {
             birthdays.addAll(fl.ListOtherName.stream().filter(p -> p.BirthYear != null && !p.BirthYear.isEmpty()).map(p -> p.BirthYear).distinct().collect(Collectors.toList()));
         }
 
-        if (birthdays.size() > 0) return birthdays.stream().distinct().collect(Collectors.joining(Separator));
+        if (birthdays.size() > 0) return birthdays.stream().distinct().collect(Collectors.joining(SEPARATOR));
 
 
         return null;
     }
 
-    private String GetAllName(RepositoryFromu.Data.PhysicalPerson fl) {
+    @Override
+    protected String GetAllName(CommonSubject person) {
         List<String> names = new ArrayList<>();
+        RepositoryFromu.Data.PhysicalPerson fl = person.Fl;
+
         names.add(fl.Fio);
 
         if (!fl.FioLat.equals(fl.Fio)) {
@@ -75,15 +64,15 @@ public class PhysicalPerson {
         }
 
         if (fl.ListOtherName != null && !fl.ListOtherName.isEmpty()) {
-            names.addAll(fl.ListOtherName.stream().filter(p -> p.Fio != null || !p.Fio.isEmpty()).map(p -> p.Fio).distinct().collect(Collectors.toList()));
+            names.addAll(fl.ListOtherName.stream().filter(p -> p.Fio != null && !p.Fio.isEmpty()).map(p -> p.Fio).distinct().collect(Collectors.toList()));
         }
 
-        return names.stream().distinct().collect(Collectors.joining(Separator));
+        return names.stream().distinct().collect(Collectors.joining(SEPARATOR));
     }
 
     private String GetNationality(CommonSubject person) {
         if (person.Fl.ListNationality == null || person.Fl.ListNationality.isEmpty()) return null;
 
-        return person.Fl.ListNationality.stream().distinct().collect(Collectors.joining(Separator));
+        return person.Fl.ListNationality.stream().distinct().collect(Collectors.joining(SEPARATOR));
     }
 }

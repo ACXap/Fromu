@@ -1,4 +1,5 @@
 import Data.LegalPerson;
+import Data.Person;
 import Data.PhysicalPerson;
 import Db.DataSaveRepositoryDb;
 import RepositoryFromu.Data.CommonSubject;
@@ -13,8 +14,8 @@ public class Program {
     public static void main(String[] args) throws Exception {
         PropertyService.Initialization();
 
-        LegalPerson.Separator = PropertyService.DbSeparator;
-        PhysicalPerson.Separator = PropertyService.DbSeparator;
+        Person.SEPARATOR = PropertyService.DbSeparator;
+
 
         RepositoryFile rf = new RepositoryFile(PropertyService.PathTempFile);
         FromuResponse fromuResponse = rf.GetResponse("temp/" + "fromu.xml");
