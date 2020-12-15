@@ -21,6 +21,7 @@ public class CommonQueryGenerator implements IQueryGenerator {
     private final String INSERT_INTO = "INSERT INTO ";
     //endregion PrivateField
 
+    @Override
     public String GetQueryInsertLegal() {
         return INSERT_INTO + TABLE_LEGAL
                 + " (list_id,unc,all_name,date_create,date_change, note)"
@@ -37,14 +38,23 @@ public class CommonQueryGenerator implements IQueryGenerator {
     @Override
     public String GetQueryInsertPhysicalDocuments() {
         return INSERT_INTO + TABLE_PHYSICAL_DOCUMENT
-                + " (list_id,type_id,number,organ,date_issue)"
-                + " VALUES(?,?,?,?,?);";
+                + " (list_id,type_id,number,organ,date_issue,document_type,series,person_id)"
+                + " VALUES(?,?,?,?,?,?,?,?);";
     }
 
     @Override
     public String GetQueryInsertAddress() {
         return INSERT_INTO + TABLE_ADDRESS
-                + " (list_id,type_id,text_address,country_id)"
-                + " VALUES(?,?,?,?);";
+                + " (list_id,type_id,text_address,country_id,address_type,person_id)"
+                + " VALUES(?,?,?,?,?,?);";
+    }
+
+    @Override
+    public String GetQueryDeleteData() {
+        String delete = "DELETE FROM ";
+        return delete + TABLE_LEGAL + ";" +
+                delete + TABLE_PHYSICAL + ";" +
+                delete + TABLE_PHYSICAL_DOCUMENT + ";"+
+                delete + TABLE_ADDRESS + ";";
     }
 }

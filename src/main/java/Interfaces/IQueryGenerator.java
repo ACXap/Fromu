@@ -13,4 +13,6 @@ public interface IQueryGenerator {
     String GetQueryInsertPhysicalDocuments();
 
     String GetQueryInsertAddress();
+
+    String GetQueryDeleteData();
 }

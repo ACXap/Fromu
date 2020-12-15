@@ -10,6 +10,7 @@ import RepositoryFromu.Data.Address;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,29 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
     protected final IQueryGenerator _queryGenerator;
     protected final DbConnectProperty _dbConnectProperty;
     //endregion PrivateField
+
+    @Override
+    public void DeleteData() throws SQLException {
+        Connection con = _dbConnectProperty.GetConnection();
+
+        try {
+            con.setAutoCommit(false);
+
+            String query = _queryGenerator.GetQueryDeleteData();
+
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.execute();
+            }
+
+            con.commit();
+        } catch (SQLException sex) {
+            con.rollback();
+            con.close();
+            throw sex;
+        } finally {
+            con.close();
+        }
+    }
 
     @Override
     public void AddLegalPerson(List<LegalPerson> persons) throws SQLException {
@@ -83,6 +107,9 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                     ps.setString(parameterIndex++, d.Number);
                     ps.setString(parameterIndex++, d.Organ);
                     ps.setObject(parameterIndex++, GetSqlDate(d.Date));
+                    ps.setObject(parameterIndex++, d.TypeDocuments.Name);
+                    ps.setObject(parameterIndex++, d.Series);
+                    ps.setInt(parameterIndex++, p.IdDb);
 
                     ps.addBatch();
                 }
@@ -95,7 +122,9 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
     private void AddPhysical(List<PhysicalPerson> persons, Connection con) throws SQLException {
         String query = _queryGenerator.GetQueryInsertPhysical();
 
-        try (PreparedStatement ps = con.prepareStatement(query)) {
+        String[] generatedKeys = {"id"};
+
+        try (PreparedStatement ps = con.prepareStatement(query,generatedKeys)) {
 
             for (PhysicalPerson p : persons) {
 
@@ -112,13 +141,21 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                 ps.addBatch();
             }
             ps.executeBatch();
+
+            ResultSet keys = ps.getGeneratedKeys();
+            for (PhysicalPerson c : persons) {
+                keys.next();
+                c.IdDb = keys.getInt(1);
+            }
         }
     }
 
     private void AddLegal(List<LegalPerson> persons, Connection con) throws SQLException {
         String query = _queryGenerator.GetQueryInsertLegal();
 
-        try (PreparedStatement ps = con.prepareStatement(query)) {
+        String[] generatedKeys = {"id"};
+
+        try (PreparedStatement ps = con.prepareStatement(query,generatedKeys)) {
             for (LegalPerson p : persons) {
 
                 int parameterIndex = 1;
@@ -132,6 +169,12 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                 ps.addBatch();
             }
             ps.executeBatch();
+
+            ResultSet keys = ps.getGeneratedKeys();
+            for (LegalPerson c : persons) {
+                keys.next();
+                c.IdDb = keys.getInt(1);
+            }
         }
     }
 
@@ -149,7 +192,9 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                     ps.setInt(parameterIndex++, p.ListId);
                     ps.setInt(parameterIndex++, a.TypeAddress.Id);
                     ps.setString(parameterIndex++, a.TextAddress);
-                    ps.setObject(parameterIndex, GetCountryCode(a.Country));
+                    ps.setObject(parameterIndex++, GetCountryCode(a.Country));
+                    ps.setObject(parameterIndex++, a.TypeAddress.Name);
+                    ps.setInt(parameterIndex++, p.IdDb);
 
                     ps.addBatch();
                 }

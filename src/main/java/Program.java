@@ -24,6 +24,7 @@ public class Program {
 
 
         DataSaveRepositoryDb db = new DataSaveRepositoryDb(PropertyService.DbConnectProperty);
+        db.DeleteData();
         db.AddLegalPerson(legal);
         db.AddPhysicalPerson(physical);
     }

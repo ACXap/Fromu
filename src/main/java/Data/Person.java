@@ -9,6 +9,7 @@ public abstract class Person {
     public static String SEPARATOR = ",";
 
     public final int ListId;
+    public int IdDb;
     public final String Unc;
     public final String Note;
     public final String AllName;
@@ -20,7 +21,7 @@ public abstract class Person {
 
     public Person(CommonSubject person) {
         ListId = person.Id;
-        Unc =person.UNC;
+        Unc = person.UNC;
         Note = person.Note;
         DateCreate = person.History.DateInput;
         DateChange = person.History.DateChange;

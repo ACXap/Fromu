@@ -52,6 +52,9 @@ public class PhysicalPerson {
         @JacksonXmlProperty(localName = "Номер")
         public String Number;
 
+        @JacksonXmlProperty(localName = "Серия")
+        public String Series;
+
         @JacksonXmlProperty(localName = "ОрганВыдачи")
         public String Organ;
 

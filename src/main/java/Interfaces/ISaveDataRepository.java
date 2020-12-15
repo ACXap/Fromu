@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ISaveDataRepository {
 
+    void DeleteData() throws SQLException;
+
     void AddLegalPerson(List<LegalPerson> persons) throws SQLException;
 
     void AddPhysicalPerson(List<PhysicalPerson> persons) throws SQLException;
