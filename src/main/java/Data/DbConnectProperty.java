@@ -1,7 +1,6 @@
 package Data;
 
-import Db.QueryGenerator.CommonQueryGenerator;
-import Interfaces.IQueryGenerator;
+import Db.QueryGenerator;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -43,8 +42,8 @@ public class DbConnectProperty {
         return DriverManager.getConnection(_url);
     }
 
-    public IQueryGenerator GetQueryGenerator() throws Exception {
-        return new CommonQueryGenerator(_dbSchema);
+    public QueryGenerator GetQueryGenerator() throws Exception {
+        return new QueryGenerator(_dbSchema);
     }
 
     //endregion PublicMethod

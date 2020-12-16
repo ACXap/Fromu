@@ -4,7 +4,6 @@ import Data.DbConnectProperty;
 import Data.LegalPerson;
 import Data.Person;
 import Data.PhysicalPerson;
-import Interfaces.IQueryGenerator;
 import Interfaces.ISaveDataRepository;
 import RepositoryFromu.Data.Address;
 
@@ -23,7 +22,7 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
     }
 
     //region PrivateField
-    protected final IQueryGenerator _queryGenerator;
+    protected final QueryGenerator _queryGenerator;
     protected final DbConnectProperty _dbConnectProperty;
     //endregion PrivateField
 
