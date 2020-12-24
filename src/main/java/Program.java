@@ -22,6 +22,8 @@ public class Program {
         List<LegalPerson> legal = LegalPerson.ConvertCommonSubjectToLegalPerson(fromuResponse.Entities);
         List<PhysicalPerson> physical = PhysicalPerson.ConvertCommonSubjectToPhysicalPerson(fromuResponse.Entities);
 
+        legal.forEach(l->l.DateList = fromuResponse.CurrentDate);
+        physical.forEach(p->p.DateList = fromuResponse.CurrentDate);
 
         DataSaveRepositoryDb db = new DataSaveRepositoryDb(PropertyService.DbConnectProperty);
         db.DeleteData();

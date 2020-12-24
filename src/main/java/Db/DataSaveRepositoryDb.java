@@ -90,6 +90,7 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
         }
     }
 
+
     private void AddPhysicalDocument(List<PhysicalPerson> persons, Connection con) throws SQLException {
         String query = _queryGenerator.GetQueryInsertPhysicalDocuments();
 
@@ -109,6 +110,11 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                     ps.setObject(parameterIndex++, d.TypeDocuments.Name);
                     ps.setObject(parameterIndex++, d.Series);
                     ps.setInt(parameterIndex++, p.IdDb);
+
+                    ps.setObject(parameterIndex++,GetSqlDate(d.DateStart));
+                    ps.setObject(parameterIndex++, GetSqlDate(d.DateStop));
+                    ps.setObject(parameterIndex++, d.IsActual);
+                    ps.setObject(parameterIndex++, GetSqlDate(p.DateList));
 
                     ps.addBatch();
                 }
@@ -133,9 +139,13 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                 ps.setString(parameterIndex++, p.AllName);
                 ps.setString(parameterIndex++, p.AllBirthday);
                 ps.setString(parameterIndex++, p.Nationality);
-                ps.setObject(parameterIndex++, GetSqlDate(p.DateCreate));
+                ps.setObject(parameterIndex++, GetSqlDate(p.DateInput));
                 ps.setObject(parameterIndex++, GetSqlDate(p.DateChange));
-                ps.setString(parameterIndex, p.Note);
+                ps.setString(parameterIndex++, p.Note);
+                ps.setString(parameterIndex++, p.AllInn);
+                ps.setString(parameterIndex++, p.AllBirthPlaces);
+                ps.setObject(parameterIndex++, GetSqlDate(p.DateOutput));
+                ps.setObject(parameterIndex++, GetSqlDate(p.DateList));
 
                 ps.addBatch();
             }
@@ -161,9 +171,13 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                 ps.setInt(parameterIndex++, p.ListId);
                 ps.setString(parameterIndex++, p.Unc);
                 ps.setString(parameterIndex++, p.AllName);
-                ps.setObject(parameterIndex++, GetSqlDate(p.DateCreate));
+                ps.setObject(parameterIndex++, GetSqlDate(p.DateInput));
                 ps.setObject(parameterIndex++, GetSqlDate(p.DateChange));
-                ps.setString(parameterIndex, p.Note);
+                ps.setString(parameterIndex++, p.Note);
+                ps.setString(parameterIndex++, p.AllInn);
+                ps.setString(parameterIndex++, p.AllOgrn);
+                ps.setObject(parameterIndex++, GetSqlDate(p.DateOutput));
+                ps.setObject(parameterIndex++, GetSqlDate(p.DateList));
 
                 ps.addBatch();
             }
@@ -194,6 +208,24 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                     ps.setObject(parameterIndex++, GetCountryCode(a.Country));
                     ps.setObject(parameterIndex++, a.TypeAddress.Name);
                     ps.setInt(parameterIndex++, p.IdDb);
+                    ps.setObject(parameterIndex++, GetCountryName(a.Country));
+                    ps.setString(parameterIndex++, a.PostIndex);
+                    ps.setString(parameterIndex++, a.Okato);
+                    ps.setString(parameterIndex++, a.FiasId);
+                    ps.setObject(parameterIndex++, a.AddressLevel);
+                    ps.setString(parameterIndex++, a.Region);
+                    ps.setString(parameterIndex++, a.AutonomousRegion);
+                    ps.setString(parameterIndex++, a.RegionRegion);
+                    ps.setString(parameterIndex++, a.City);
+                    ps.setString(parameterIndex++, a.CityRegion);
+                    ps.setString(parameterIndex++, a.Settlement);
+                    ps.setString(parameterIndex++, a.Street);
+                    ps.setString(parameterIndex++, a.House);
+                    ps.setString(parameterIndex++, a.Corpus);
+                    ps.setString(parameterIndex++, a.Building);
+                    ps.setString(parameterIndex++, a.Room);
+                    ps.setObject(parameterIndex++, GetSqlDate(p.DateList));
+
 
                     ps.addBatch();
                 }
@@ -207,6 +239,12 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
         if(country== null) return  null;
 
         return country.Code;
+    }
+
+    private Object GetCountryName(Address.Country country) {
+        if(country== null) return  null;
+
+        return country.Name;
     }
 
     private Object GetSqlDate(Date date) {

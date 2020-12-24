@@ -14,16 +14,20 @@ public class PhysicalPerson extends Person {
         Nationality = GetNationality(person);
         AllBirthday = GetAllBirthday(person.Fl);
         Documents = person.Fl.listDocuments;
+        AllInn = GetAllInn(person.Fl);
+        AllBirthPlaces = GetAllBirthPlaces(person.Fl);
+
     }
 
     public static List<PhysicalPerson> ConvertCommonSubjectToPhysicalPerson(List<CommonSubject> subject) {
         return subject.parallelStream().filter(s -> s.Fl != null).map(PhysicalPerson::new).collect(Collectors.toList());
     }
 
-
     public final String AllBirthday;
     public final String Nationality;
     public final List<RepositoryFromu.Data.PhysicalPerson.Documents> Documents;
+    public final String AllInn;
+    public final String AllBirthPlaces;
 
     private String GetAllBirthday(RepositoryFromu.Data.PhysicalPerson fl) {
         List<String> birthdays = new ArrayList<>();
@@ -45,6 +49,34 @@ public class PhysicalPerson extends Person {
 
 
         return null;
+    }
+
+    private String GetAllInn(RepositoryFromu.Data.PhysicalPerson ul) {
+        List<String> list = new ArrayList<>();
+        AddString(list, ul.Inn);
+
+        if (ul.ListOtherName != null && !ul.ListOtherName.isEmpty()) {
+            ul.ListOtherName.forEach(e -> AddString(list, e.Inn));
+        }
+
+        String result = list.stream().distinct().collect(Collectors.joining(SEPARATOR));
+
+
+        return result.isEmpty() ? null: result;
+    }
+
+    private String GetAllBirthPlaces(RepositoryFromu.Data.PhysicalPerson ul) {
+        List<String> list = new ArrayList<>();
+        AddString(list, ul.BirthPlace);
+
+        if (ul.ListOtherName != null && !ul.ListOtherName.isEmpty()) {
+            ul.ListOtherName.forEach(e -> AddString(list, e.BirthPlace));
+        }
+
+        String result = list.stream().distinct().collect(Collectors.joining(SEPARATOR));
+
+
+        return result.isEmpty() ? null: result;
     }
 
     @Override

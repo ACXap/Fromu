@@ -47,5 +47,8 @@ public class CommonSubject {
 
         @JacksonXmlProperty(localName = "ДатаМодификации")
         public Date DateChange;
+
+        @JacksonXmlProperty(localName = "ДатаИсключения")
+        public Date DateOutput;
     }
 }

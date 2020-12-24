@@ -14,8 +14,10 @@ public abstract class Person {
     public final String Note;
     public final String AllName;
 
-    public final Date DateCreate;
+    public final Date DateInput;
     public final Date DateChange;
+    public final Date DateOutput;
+    public Date DateList;
 
     public List<RepositoryFromu.Data.Address> Address;
 
@@ -23,11 +25,19 @@ public abstract class Person {
         ListId = person.Id;
         Unc = person.UNC;
         Note = person.Note;
-        DateCreate = person.History.DateInput;
+        DateInput = person.History.DateInput;
         DateChange = person.History.DateChange;
+        DateOutput = person.History.DateOutput;
         Address = person.Address;
         AllName = GetAllName(person);
     }
 
     protected abstract String GetAllName(CommonSubject person);
+
+
+    protected void AddString(List<String> list, String data) {
+        if (data != null && !data.isEmpty()) {
+            list.add(data);
+        }
+    }
 }

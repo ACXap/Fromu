@@ -20,6 +20,9 @@ public class PhysicalPerson {
     @JacksonXmlProperty(localName = "ДатаРождения")
     public String Birthday;
 
+    @JacksonXmlProperty(localName = "МестоРождения")
+    public String BirthPlace;
+
     @JacksonXmlProperty(localName = "ГодРождения")
     public String BirthYear;
 
@@ -33,6 +36,9 @@ public class PhysicalPerson {
     @JacksonXmlProperty(localName = "Гражданство")
     public List<String> ListNationality;
 
+    @JacksonXmlProperty(localName = "ИНН")
+    public String Inn;
+
     public static class OtherName{
         @JacksonXmlProperty(localName = "ФИО")
         public String Fio;
@@ -42,6 +48,12 @@ public class PhysicalPerson {
 
         @JacksonXmlProperty(localName = "ГодРождения")
         public String BirthYear;
+
+        @JacksonXmlProperty(localName = "МестоРождения")
+        public String BirthPlace;
+
+        @JacksonXmlProperty(localName = "ИНН")
+        public String Inn;
     }
 
     public static class Documents {
@@ -60,6 +72,15 @@ public class PhysicalPerson {
 
         @JacksonXmlProperty(localName = "ДатаВыдачи")
         public Date Date;
+
+        @JacksonXmlProperty(localName = "ДатаС")
+        public Date DateStart;
+
+        @JacksonXmlProperty(localName = "ДатаПо")
+        public Date DateStop;
+
+        @JacksonXmlProperty(localName = "ПризнакДействительности")
+        public Integer IsActual;
 
         public static class TypeDocuments {
             @JacksonXmlProperty(localName = "Идентификатор")
