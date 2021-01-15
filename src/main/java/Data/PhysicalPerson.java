@@ -9,14 +9,13 @@ import java.util.stream.Collectors;
 public class PhysicalPerson extends Person {
 
     public PhysicalPerson(CommonSubject person) {
-       super(person);
+        super(person);
 
         Nationality = GetNationality(person);
         AllBirthday = GetAllBirthday(person.Fl);
         Documents = person.Fl.listDocuments;
         AllInn = GetAllInn(person.Fl);
         AllBirthPlaces = GetAllBirthPlaces(person.Fl);
-
     }
 
     public static List<PhysicalPerson> ConvertCommonSubjectToPhysicalPerson(List<CommonSubject> subject) {
@@ -34,10 +33,10 @@ public class PhysicalPerson extends Person {
 
         if (fl.Birthday != null) {
             birthdays.add(fl.Birthday);
+        }
 
-            if (!fl.Birthday.equals(fl.BirthYear)) {
-                birthdays.add(fl.BirthYear);
-            }
+        if (fl.BirthYear != null && !fl.BirthYear.equals(fl.Birthday)) {
+            birthdays.add(fl.BirthYear);
         }
 
         if (fl.ListOtherName != null && !fl.ListOtherName.isEmpty()) {
@@ -46,7 +45,6 @@ public class PhysicalPerson extends Person {
         }
 
         if (birthdays.size() > 0) return birthdays.stream().distinct().collect(Collectors.joining(SEPARATOR));
-
 
         return null;
     }
@@ -62,7 +60,7 @@ public class PhysicalPerson extends Person {
         String result = list.stream().distinct().collect(Collectors.joining(SEPARATOR));
 
 
-        return result.isEmpty() ? null: result;
+        return result.isEmpty() ? null : result;
     }
 
     private String GetAllBirthPlaces(RepositoryFromu.Data.PhysicalPerson ul) {
@@ -75,8 +73,7 @@ public class PhysicalPerson extends Person {
 
         String result = list.stream().distinct().collect(Collectors.joining(SEPARATOR));
 
-
-        return result.isEmpty() ? null: result;
+        return result.isEmpty() ? null : result;
     }
 
     @Override

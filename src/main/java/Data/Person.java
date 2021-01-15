@@ -2,8 +2,10 @@ package Data;
 
 import RepositoryFromu.Data.CommonSubject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Person {
     public static String SEPARATOR = ",";
@@ -33,7 +35,6 @@ public abstract class Person {
     }
 
     protected abstract String GetAllName(CommonSubject person);
-
 
     protected void AddString(List<String> list, String data) {
         if (data != null && !data.isEmpty()) {

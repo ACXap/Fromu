@@ -1,8 +1,6 @@
 package Data;
 
 import RepositoryFromu.Data.CommonSubject;
-import Service.PropertyService;
-import jdk.jfr.internal.Repository;
 
 import java.util.ArrayList;
 import java.util.List;

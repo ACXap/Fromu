@@ -226,7 +226,6 @@ public class DataSaveRepositoryDb implements ISaveDataRepository {
                     ps.setString(parameterIndex++, a.Room);
                     ps.setObject(parameterIndex++, GetSqlDate(p.DateList));
 
-
                     ps.addBatch();
                 }
             }
